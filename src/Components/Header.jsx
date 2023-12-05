@@ -1,12 +1,22 @@
 import React, { useEffect, useState } from 'react'
 import '../index.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Authenticate from './Authenticate';
 import Offcanvas from 'react-bootstrap/Offcanvas';
+import Dropdown from 'react-bootstrap/Dropdown';
+import { useDispatch, useSelector } from 'react-redux';
+import { exit } from '../Redux/slice';
+
+
+
+
 
 function Header() {
-
+    const dispatch = useDispatch()
+const logStat = useSelector((state)=>(state.loginstat.login))
     const [isLogin, setIsLogin] = useState(false)
+    const [nam,setNam]=useState("")
+     
 
 
     const [show, setShow] = useState(false);
@@ -39,7 +49,27 @@ function Header() {
             window.removeEventListener('scroll', handleScroll);
         };
     }, []);
+    // check loged or not
 
+    useEffect(() => {
+        if (sessionStorage.getItem("token")) {
+          setIsLogin(true);
+          const currentUser = JSON.parse(sessionStorage.getItem("currentUser"));
+          setNam(currentUser.username.charAt(0).toUpperCase());
+        } else {
+          setIsLogin(false);
+          setNam(""); // Reset Nam if the user is not logged in
+        }
+      }, [logStat, isLogin]);
+    // console.log(logStat)
+// LogOut
+const navigate = useNavigate()
+const handleLogout = ()=>{
+    sessionStorage.clear();
+    dispatch(exit())
+    navigate('/')
+    handleClose()
+}
     return (
         <>
             {
@@ -52,12 +82,34 @@ function Header() {
 
                                 <div className='d-flex align-items-center'>
 
-                                    <Link to={'/used_car'}><h6 className={`mx-2 btn fw-bolder  ${isFixed ? 'text-dark' : 'text-light'}`}>Buy Used car</h6></Link>
-                                    <Link to={'/post_ad'}><h6 className={`mx-2 btn fw-bolder  ${isFixed ? 'text-dark' : 'text-light'}`}>Sell your car</h6></Link>
+                                    {
+                                        isLogin ? <>
+                                            <Link to={'/used_car'}><h6 className={`mx-2 btn fw-bolder  ${isFixed ? 'text-dark' : 'text-light'}`}>Buy Used car</h6></Link>
+                                            <Link to={'/post_ad'}><h6 className={`mx-2 btn fw-bolder  ${isFixed ? 'text-dark' : 'text-light'}`}>Sell your car</h6></Link>
+                                        </>
+                                            : ""
+                                    }
 
                                     {
-                                        isLogin ? <Link to={'/user_profile'}><i class="fa-solid fa-user-tie fa-2xl " style={{ color: isFixed ? 'black' : 'white' }}
-                                        ></i></Link>
+                                        isLogin ? 
+                                            <Dropdown>
+                                                <Dropdown.Toggle className='text-white bg-dark' style={{ width: "45px", height: "45px", borderRadius: "50%" }}>
+                                                    <h4 className='mt-'>{`${nam?nam:"@"}`}</h4>
+                                                </Dropdown.Toggle>
+
+
+                                                <Dropdown.Menu>
+                                                    <Dropdown.Item >
+                                                        <Link to={'/user_profile'} className='fw-bold text-dark' style={{ textDecoration: "none" }}>
+                                                            Profile
+                                                        </Link>
+                                                    </Dropdown.Item>
+                                                    <Dropdown.Item className='fw-bold text-dark' onClick={handleLogout} >Log out</Dropdown.Item>
+
+                                                </Dropdown.Menu>
+                                            </Dropdown>
+                                            // <Link to={'/user_profile'}><i class="fa-solid fa-user-tie fa-2xl " style={{ color: isFixed ? 'black' : 'white' }}
+                                            // ></i></Link>
                                             :
                                             <>
                                                 <Authenticate isFixed={isFixed} />
@@ -87,15 +139,16 @@ function Header() {
                                         <Offcanvas.Body>
                                             <div className='d-flex flex-column justify-content-start '>
                                                 <Link style={{ textDecoration: 'none' }} to={'/'}   ><h6 className="mx-3  text-dark" style={{ cursor: "pointer" }} onClick={handleClose}>Home</h6></Link>
-                                                
-                                                <Link style={{ textDecoration: 'none' }} to={'/used_car'}   ><h6 className="mx-3  text-dark" style={{ cursor: "pointer" }} onClick={handleClose}>Buy Used car</h6></Link>
-                                                <Link style={{ textDecoration: 'none' }} to={'/post_ad'}   ><h6 className='mx-3  text-dark' style={{ cursor: "pointer" }} onClick={handleClose}>Sell your car</h6></Link>
+
+                                                {isLogin ? <> <Link style={{ textDecoration: 'none' }} to={'/used_car'}   ><h6 className="mx-3  text-dark" style={{ cursor: "pointer" }} onClick={handleClose}>Buy Used car</h6></Link>
+                                                <Link style={{ textDecoration: 'none' }} to={'/post_ad'}   ><h6 className='mx-3  text-dark' style={{ cursor: "pointer" }} onClick={handleClose}>Sell your car</h6></Link> </>:""}
                                                 {
-                                                    isLogin ? <Link to={'/user_profile'}><i class="fa-solid fa-user-tie fa-2xl " style={{ color:'black' }}
-                                                    onClick={handleClose}></i></Link>
+                                                    isLogin ? <> <Link to={'/user_profile'} className='mx-3 text-dark' style={{ textDecoration: "none" }}><h6
+                                                        onClick={handleClose}>Profile</h6></Link>
+                                                        <h6 className='mx-3' onClick={handleLogout}>Logout</h6></>
                                                         :
-                                                        <div onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleShow(); }}>
-                                                            <Authenticate isFixed={true}/>
+                                                        <div className='mx-3' style={{cursor:'pointer'}} onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleShow(); }}>
+                                                            <Authenticate isFixed={true} text={"Register/Login"} />
                                                         </div>
                                                 }
                                             </div>

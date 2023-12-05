@@ -1,7 +1,20 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { BASE_URL } from '../Services/baseUrl';
+import Request from './Request';
 
-function Product() {
+
+function Product({ad}) {
+    // console.log(ad);
+    const[currentUser,setCurrentUser] = useState("")
+    useEffect(()=>{
+        if (sessionStorage.getItem("currentUser")) {
+            const cuUser = JSON.parse(sessionStorage.getItem("currentUser"));
+            setCurrentUser(cuUser) 
+        }
+    },[])
+    
+    
     return (
         <div className='w-100 d-flex flex-column align-items-center'>
             <div className='row container py-4'>
@@ -22,15 +35,9 @@ function Product() {
                     <div>
                         <div id="carouselExampleFade" class="carousel slide carousel-fade">
                             <div class="carousel-inner">
-                                <div class="carousel-item active">
-                                    <img src="https://scb-image-bucket.s3.amazonaws.com/ee92aaed-352c-4f35-a161-6fc8b8709a56/0159be62-94ed-400c-91e2-7e83dea3c3c2.jpg" class="d-block w-100" alt="..." />
-                                </div>
-                                <div class="carousel-item">
-                                    <img src="https://scb-image-bucket.s3.amazonaws.com/ee92aaed-352c-4f35-a161-6fc8b8709a56/188c0647-7e13-49fe-b9bf-8c0f4b075138.jpg" class="d-block w-100" alt="..." />
-                                </div>
-                                <div class="carousel-item">
-                                    <img src="https://scb-image-bucket.s3.amazonaws.com/ee92aaed-352c-4f35-a161-6fc8b8709a56/1af4fd8c-6737-49c7-9bdb-c4c0e1d3e0c2.jpg" class="d-block w-100" alt="..." />
-                                </div>
+                                {ad?ad.images.map((img)=>(<div class="carousel-item active">
+                                    <img  src={`${BASE_URL}/images/car/${img}`} class="d-block w-100" alt="..." />
+                                </div>)):""}
                             </div>
                             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
                                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -42,7 +49,7 @@ function Product() {
                             </button>
                         </div>
                     </div>
-                    <h1>Mercedes-Benz A 250 Sport - 2017</h1>
+                    <h1>{ad?ad.model:""} {ad?ad.year:""}</h1>
                 </div>
                 <div className="col-lg-4">
                     <div className='d-flex flex-column'>
@@ -50,15 +57,15 @@ function Product() {
                             <div class="row">
                                 <div class="col">
                                     <div class="list-group shadow" id="list-tab" role="tablist">
-                                        <div class="list-group-item bg-primary "  ><h3 className='text-center'>Price</h3></div>
-                                        <div class="list-group-item d-flex justify-content-between"><span>Mileage</span><span>profile</span></div>
-                                        <div class="list-group-item d-flex justify-content-between"><span>Car Options</span><span>profile</span></div>
-                                        <div class="list-group-item d-flex justify-content-between"><span>Engine Size</span><span>profile</span></div>
-                                        <div class="list-group-item d-flex justify-content-between"><span>Specification</span><span>profile</span></div>
-                                        <div class="list-group-item d-flex justify-content-between"><span>Seats</span><span>profile</span></div>
-                                        <div class="list-group-item d-flex justify-content-between"><span>Transmission</span><span>profile</span></div>
-                                        <div class="list-group-item d-flex justify-content-between"><span>Drive Displacement</span><span>profile</span></div>
-                                        <div class="list-group-item d-flex justify-content-between"><span>Location</span><span>profile</span></div>
+                                        <div class="list-group-item bg-primary "  ><h3 className='text-center'>{ad?ad.price:""}₹</h3></div>
+                                        <div class="list-group-item d-flex justify-content-between"><span>Distance</span><span>{ad?ad.distance:""}</span></div>
+                                        <div class="list-group-item d-flex justify-content-between"><span>Car Options</span><span>{ad?ad.option:""}</span></div>
+                                        <div class="list-group-item d-flex justify-content-between"><span>Engine Size</span><span>{ad?ad.size:""}</span></div>
+                                        <div class="list-group-item d-flex justify-content-between"><span>Specification</span><span>{ad.spec?ad.spec:"!"}</span></div>
+                                        <div class="list-group-item d-flex justify-content-between"><span>Seats</span><span>{ad?ad.seats:""}</span></div>
+                                        <div class="list-group-item d-flex justify-content-between"><span>Transmission</span><span>{ad?ad.transmission:""}</span></div>
+                                        <div class="list-group-item d-flex justify-content-between"><span>Drive Displacement</span><span>{ad.DD?ad.dd:"!"}</span></div>
+                                        <div class="list-group-item d-flex justify-content-between"><span>Location</span><span>{ad?ad.location:""}</span></div>
                                         
                                         
                                     </div>
@@ -73,8 +80,12 @@ function Product() {
                                 </div> */}
                             </div>
                         </div>
-                        <button className='btn mt-3 text-center fw-bold w-100' style={{ backgroundColor: '#A8C82B', borderBottom: "3px solid #748a21" }}>REQUEST TO TEST DRIVE</button>
+                        { currentUser._id != ad.uploderId ?
+                        <div className='d-flex flex-column'>
+                            <Request uploderId={ad.uploderId} />
                         <button className='btn mt-3 bg-info text-center fw-bold w-100' style={{ borderBottom: '3px solid #336d80' }}>TRADE IN</button>
+                        </div>:""
+                        }
                     </div>
                 </div>
             </div>

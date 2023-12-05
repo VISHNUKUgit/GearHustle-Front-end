@@ -1,7 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import Authenticate from '../Components/Authenticate';
+import { useSelector } from 'react-redux';
 
 function Landingpage() {
+  const logStat = useSelector((state)=>(state.loginstat.login))
+  // console.log("land",logStat);
+  //Check loged or not
+  const [isLogin, setIsLogin] = useState(false)
+  useEffect(() => {
+    if (sessionStorage.getItem("token")) {
+        setIsLogin(true)
+    } else {
+        setIsLogin(false)
+    }
+}, [logStat])
   const [screenSize, setScreenSize] = useState(window.innerWidth);
 
   useEffect(() => {
@@ -31,9 +44,10 @@ function Landingpage() {
                 <h6 className='my-3'>Effective - Guaranteed</h6>
               </div>
               <div className='d-flex'>
-              <Link to={'/post_ad'}><button type="button" class="btn btn-outline-light">Sell Your Car</button></Link>
-                <Link to={'/used_car'}><button className='btn btn-warning ms-3'>Browse Used Car</button>
-                </Link>
+              { isLogin?
+              <><Link to={'/post_ad'}><button type="button" class="btn btn-outline-light">Sell Your Car</button></Link>
+                <Link to={'/used_car'}><button className='btn btn-warning ms-3'>Browse Used Car</button></Link></>
+                :<div className='btn btn-warning w-50'><Authenticate text={"Expolre"}/></div>}
                 
               </div>
             </div>
@@ -142,11 +156,11 @@ function Landingpage() {
           <div className='my-3 d-flex flex-column'>
             <div className='btn text-center ' style={{ backgroundColor: '#A8C82B', borderBottom: "3px solid #748a21" }}>
               {/* <h5 className='mt-2 fw-bolder'>SELL YOUR CAR</h5> */}
-              <Link style={{textDecoration:'none'}} to={'/post_ad'} ><h5 className='mt-2 fw-bolder text-dark'>SELL YOUR CAR</h5></Link>
+              <Link style={{textDecoration:'none'}} to={`${isLogin?'/post_ad':'/'}`} ><h5 className='mt-2 fw-bolder text-dark'>SELL YOUR CAR</h5></Link>
               <p className='fw-bold mb-2' >We absolutely buy any car in 25 minutes</p>
             </div>
             <div className='btn my-4 bg-info text-center' style={{ borderBottom: '3px solid #336d80' }}>
-              <Link style={{textDecoration:'none'}} to={'/used_car'} ><h5 className='mt-2 fw-bolder text-dark'>BUY USED CAR</h5></Link>
+              <Link style={{textDecoration:'none'}} to={`${isLogin?'/used_car':'/'}`} ><h5 className='mt-2 fw-bolder text-dark'>BUY USED CAR</h5></Link>
               <p className='fw-bold mb-2'>Browse our used cars, or let's get one for you</p>
             </div>
             <div className='btn text-center' style={{ backgroundColor: '#A8C82B', borderBottom: "3px solid #748a21" }}>

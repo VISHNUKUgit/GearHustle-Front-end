@@ -1,8 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import ProductCard from '../Components/ProductCard';
+import { getAllAdsAPI } from '../Services/allAPI';
 
 function Home() {
+  const [allAds, setAllAds] = useState("")
+  const [searchValue,setSearchValue] = useState("")
   // mobile srceen
   const [screenSize, setScreenSize] = useState(window.innerWidth)
   window.addEventListener('resize', function () {
@@ -11,6 +14,21 @@ function Home() {
 
     setScreenSize(screenWidth)
   });
+  // get all Ads
+  useEffect(() => {
+    const getAllAds = async () => {
+      const result = await getAllAdsAPI(searchValue)
+      if (result.status === 200) {
+        setAllAds(result.data)
+        
+      } else {
+        console.log(result);
+      }
+
+    }
+    getAllAds()
+  }, [searchValue])
+  // console.log(searchValue);
   return (
     <div className={`w-100 d-flex flex-column bg-light ${screenSize > 600 ? 'align-items-center' : 'justify-content-center'} `}>
       <div className={`container py-4 ${screenSize > 600 ? 'row md-3' : 'd-flex flex-column-reverse'} `}>
@@ -34,21 +52,23 @@ function Home() {
       </div>
       <div className={`container  ${screenSize > 600 ? 'row' : ''} `}>
         <div className="col-12 col-md-3 mb-3 ">
-        <form class="d-flex" role="search">
-        <input class="form-control me-2 shadow" type="search" placeholder="Search" aria-label="Search"/>
-      </form>
+          <form class="d-flex" role="search">
+            <input class="form-control me-2 shadow" type="search" placeholder="Search" aria-label="Search" value={searchValue||""} onChange={(e)=>setSearchValue(e.target.value)} />
+          </form>
         </div>
         <div className="col-12 col-md-9">
           <div>
+            {allAds ? allAds.map((ad) => (
+                
+              
+              <ProductCard data={ad} />
             
-           <Link to={'/product'}><ProductCard /></Link> 
-           
-            <ProductCard />
-            
-            <ProductCard />
-            </div>
-          </div> 
-        
+             
+            )) : ""}
+
+          </div>
+        </div>
+
       </div>
     </div>
   )
