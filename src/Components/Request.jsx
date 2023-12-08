@@ -71,8 +71,8 @@ function Request({uploderId}) {
           </Typography>
           <Typography className='d-flex flex-column' id="transition-modal-description" sx={{ mt: 2 }}>
             Email:{uploderData?uploderData.email:""}
-            <div className='d-flex'>Mob:<a href={`tel:${uploderData?uploderData.mob:""}`}>{uploderData?uploderData.mob:""}</a></div>
-            Whatapp:{uploderData?uploderData.whatsapp:""}
+            <div className='d-flex'>Mob:<a href={`tel:${uploderData?uploderData.mob:""}`} target="_blank">{uploderData?uploderData.mob:""}</a></div>
+            <div className='d-flex'>WhatsApp:<a href={`https://wa.me/91${uploderData?uploderData.mob:""}`} target="_blank">{uploderData?uploderData.whatsapp:""}</a></div>
           </Typography>
         </Box>
       </Fade>
