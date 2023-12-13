@@ -49,7 +49,7 @@ const navigate = useNavigate()
                 <div class="list-group-item text-center"><span className='fw-bold'>Free</span><span className='text-secondary'>service</span></div>
                 <div class="list-group-item text-center"><span className='fw-bold'>Instant</span><span className='text-secondary'>sale</span></div>
                 <div class="list-group-item text-center"><span className='fw-bold'>Instant</span><span className='text-secondary'>payment</span></div> 
-                <div class="btn btn-primary text-center" style={{borderRadius:'0px'}}><h5>Start</h5></div> 
+                <div onClick={()=>navigate('/sell-us-your-car')}  class="btn btn-primary text-center" style={{borderRadius:'0px'}}><h5>Start</h5></div> 
               </div>
             </div>
             <div className="col-lg-4 mb-2">
