@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
-import AddCar from '../Components/AddCar';
+
 import AddCar1 from '../Components/AddCar1';
+import { useNavigate } from 'react-router-dom';
 
 function PostAD() {
+const navigate = useNavigate()
    // mobile srceen
    const [screenSize, setScreenSize] = useState(window.innerWidth)
    window.addEventListener('resize', function () {
@@ -34,7 +36,7 @@ function PostAD() {
                 <div class="list-group-item text-center"><span className='fw-bold'>Hassle</span><span className='text-secondary'>free</span></div>
                 <div class="list-group-item text-center"><span className='fw-bold'>Guaranteed</span><span className='text-secondary'>sell</span></div>
                 <div class="list-group-item text-center"><span className='fw-bold'>Instant</span><span className='text-secondary'>payment</span></div> 
-                <div class="btn btn-primary text-center" style={{borderRadius:'0px'}}><h5>Start</h5></div> 
+                <div onClick={()=>navigate('/sell-us-your-car')}  class="btn btn-primary text-center" style={{borderRadius:'0px'}}><h5>Start</h5></div> 
               </div>
             </div>
             <div className="col-lg-4 mb-2">

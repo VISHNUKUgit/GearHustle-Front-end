@@ -12,6 +12,9 @@ import Landingpage from './Pages/Landingpage';
 import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import Error from './Components/Error';
+import SellToUs from './Pages/SellToUs';
+import SellToUsD from './Pages/SellToUsD';
+import Valuation from './Pages/Valuation';
 
 function App() {
   const logStat = useSelector((state) => (state.loginstat.login))
@@ -29,6 +32,9 @@ function App() {
       <Routes>
         <Route path='/' element={<Landingpage />} />
         <Route path='/used_car' element={enter ? <Home /> : <Landingpage />} />
+        <Route path='/sell-us-your-car' element={enter ? <SellToUs/> : <Landingpage />} />
+        <Route path='/sell-us-your-car/next' element={enter ? <SellToUsD/> : <Landingpage />} />
+        <Route path='/Valuated' element={enter ? <Valuation/> : <Landingpage />} />
         <Route path="/product" element={enter ? <ProductDetail /> : <Landingpage />} />
         <Route path='/profile_view' element={enter ? <ProfileView /> : <Landingpage />} />
         <Route path='/chat' element={enter ? <Chat /> : <Landingpage />} />

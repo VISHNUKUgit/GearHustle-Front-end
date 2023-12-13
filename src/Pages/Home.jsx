@@ -28,7 +28,7 @@ function Home() {
     }
     getAllAds()
   }, [searchValue])
-  // console.log(searchValue);
+  console.log(allAds);
   return (
     <div className={`w-100 d-flex flex-column bg-light ${screenSize > 600 ? 'align-items-center' : 'justify-content-center'} `}>
       <div className={`container py-4 ${screenSize > 600 ? 'row md-3' : 'd-flex flex-column-reverse'} `}>
