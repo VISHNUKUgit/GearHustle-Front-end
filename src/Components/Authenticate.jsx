@@ -160,7 +160,7 @@ function Authenticate({ isFixed, text }) {
                 />
               }
               <TextField
-                
+
                 label="Email"
                 type='email'
                 variant="standard"
@@ -168,7 +168,7 @@ function Authenticate({ isFixed, text }) {
                 onChange={(e) => setuserDetails({ ...userDetails, email: e.target.value })}
               />
               <TextField
-                
+
                 label="Password"
                 variant="standard"
                 type='password'
@@ -181,9 +181,10 @@ function Authenticate({ isFixed, text }) {
                 disabled={isLoading}
               >
                 {isLoading ? (
-                  <div className='d-flex justify-content-center align-items-center'>
-                  <Spinner animation="border" />  Loading...
-                  </div>
+                  <>
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Loading...
+                  </>
                 ) : (
                   isRegisterForm ? 'Register' : 'Log-in'
                 )}

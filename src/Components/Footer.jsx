@@ -63,7 +63,7 @@ function Footer() {
                             <h3 className='text-light text-center'>FOLLOW US ON</h3>
                             <div>
                                 {image.map((imageName, index) => (
-                                    <img className='border mx-1 border-dark' key={index} src={imageName} alt={`Image ${index + 1}`} />
+                                    <img className='shadow rounded m-1' style={{cursor:'pointer'}} key={index} src={imageName} alt={`Image ${index + 1}`} />
                                 ))}
                             </div>
                         </div>
@@ -112,7 +112,7 @@ function Footer() {
                             <h3 className='text-light text-center'>FOLLOW US ON</h3>
                             <div>
                                 {image.map((imageName, index) => (
-                                    <img className='border mx-1 border-dark' key={index} src={imageName} alt={`Image ${index + 1}`} />
+                                    <img className='shadow rounded m-1' style={{cursor:'pointer'}} key={index} src={imageName} alt={`Image ${index + 1}`} />
                                 ))}
                             </div>
                         </div>

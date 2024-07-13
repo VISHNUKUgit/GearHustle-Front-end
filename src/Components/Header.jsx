@@ -70,6 +70,8 @@ const handleLogout = ()=>{
     navigate('/')
     handleClose()
 }
+
+
     return (
         <>
             {
@@ -92,8 +94,8 @@ const handleLogout = ()=>{
 
                                     {
                                         isLogin ? 
-                                            <Dropdown>
-                                                <Dropdown.Toggle className='text-white bg-dark' style={{ width: "45px", height: "45px", borderRadius: "50%" }}>
+                                            <Dropdown >
+                                                <Dropdown.Toggle className='text-white bg-dark no-arrow' style={{ width: "45px", height: "45px", borderRadius: "50%" }}>
                                                     <h4 className='mt-'>{`${nam?nam:"@"}`}</h4>
                                                 </Dropdown.Toggle>
 
@@ -108,15 +110,13 @@ const handleLogout = ()=>{
 
                                                 </Dropdown.Menu>
                                             </Dropdown>
-                                            // <Link to={'/user_profile'}><i class="fa-solid fa-user-tie fa-2xl " style={{ color: isFixed ? 'black' : 'white' }}
-                                            // ></i></Link>
                                             :
                                             <>
                                                 <Authenticate isFixed={isFixed} />
                                             </>
                                     }
 
-                                    <h6 className={`mx-2 btn ${isFixed ? 'text-bg-dark' : 'text-bg-light'}`}><i class="fa-solid fa-phone fa-sm" style={{ color: isFixed ? '#FFFFFF' : '#000000' }}></i> 910019</h6>
+                                    <h6 className={`mx-2 btn ${isFixed ? 'text-bg-dark' : 'text-bg-light'}`}><i class="fa-solid fa-phone fa-sm" style={{ color: isFixed ? '#FFFFFF' : '#000000' }}></i> 9048310727</h6>
                                 </div>
                             </div>
                         </nav>

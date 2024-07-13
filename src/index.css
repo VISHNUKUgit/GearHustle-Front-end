@@ -41,3 +41,6 @@
 .option-box-btn:hover{
   color: #333;
 }
+.no-arrow::after {
+  display: none !important;
+}
